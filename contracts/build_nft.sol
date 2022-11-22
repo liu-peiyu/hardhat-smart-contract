@@ -3,40 +3,62 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+// import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+// import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
 
-contract BUILD_NFT is ERC721, ERC721Enumerable, Ownable {
+contract BUILDNFT is ERC721, ERC721URIStorage, Ownable {
+
+    using Counters for Counters.Counter;
+
+    Counters.Counter private _tokenIds;
+
     string private _baseURIextended;
 
     uint256 public constant MAX_SUPPLY = 100;
 
     uint256 public constant PRICE_PER_TOKEN = 0.01 ether;
 
-    constructor()ERC721("BUILD_NFT", "BFT"){
+    constructor() ERC721("BUILD_NFT", "BFT") ERC721URIStorage() Ownable(){}
 
-    }
-
-    function _beforeTokenTransfer(address from, address to, uint256 tokenId, uint256 batchSize) internal override(ERC721, ERC721Enumerable) {
+    function _beforeTokenTransfer(address from, address to, uint256 tokenId, uint256 batchSize) internal override(ERC721) {
         super._beforeTokenTransfer(from, to, tokenId, batchSize);
     }
 
-    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, ERC721Enumerable) returns(bool){
+    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721) returns(bool){
         return super.supportsInterface(interfaceId);
     }
 
-    function setBaseURI(string memory baseURI) external onlyOwner {
-        _baseURIextended = baseURI;
+    // function setBaseURI(string memory baseURI) external onlyOwner {
+    //     _baseURIextended = baseURI;
+    // }
+
+    // function mint(uint numberOfTokens) public payable {
+    //     uint256 ts = totalSupply();
+
+    //     require(ts + numberOfTokens <= MAX_SUPPLY, "Purchase would exceed max tokens");
+    //     require(PRICE_PER_TOKEN * numberOfTokens <= msg.value, "Ether value sent is not correct");
+
+    //     for (uint256 i = 0; i < numberOfTokens; i++) {
+    //         _safeMint(msg.sender, ts + i);
+    //     }
+    // }
+
+    function mintNFT(address recipient, string memory _tokenURI) public onlyOwner returns (uint256) { 
+        _tokenIds.increment();
+        uint256 newItemId = _tokenIds.current(); 
+        _mint(recipient, newItemId);
+        _setTokenURI(newItemId, _tokenURI);
+        return newItemId;
     }
 
-    function mint(uint numberOfTokens) public payable {
-        uint256 ts = totalSupply();
+    function tokenURI(uint256 tokenId) public view virtual override(ERC721, ERC721URIStorage) returns (string memory){
+        return tokenURI(tokenId);
+    }
 
-        require(ts + numberOfTokens <= MAX_SUPPLY, "Purchase would exceed max tokens");
-        require(PRICE_PER_TOKEN * numberOfTokens <= msg.value, "Ether value sent is not correct");
-
-        for (uint256 i = 0; i < numberOfTokens; i++) {
-            _safeMint(msg.sender, ts + i);
-        }
+    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage){
+        super._burn(tokenId);
     }
 
     function withdraw() public onlyOwner{

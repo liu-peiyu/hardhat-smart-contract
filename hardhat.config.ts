@@ -17,7 +17,7 @@ const config: HardhatUserConfig = {
   },
   networks: {
     localhost:{
-      url: "http://127.0.0.1:7545",
+      url: "http://127.0.0.1:8545",
       accounts: [`0x${PRIVATE_KEY}`]
     },
     goerli: {
