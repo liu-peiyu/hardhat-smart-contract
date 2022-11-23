@@ -11,7 +11,7 @@ async function main() {
 
    // make sure to replace the "Buildoooor" reference 
    //with your own ERC-20 name
-    const Token = await ethers.getContractFactory("CornucopiaContract");
+    const Token = await ethers.getContractFactory("BuildDog");
     const hardhatToken = await Token.deploy();
     await hardhatToken.deployed();
 

