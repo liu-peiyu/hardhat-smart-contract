@@ -17,7 +17,6 @@ contract CornucopiaContract{
         payable(msg.sender).transfer(address(this).balance);
     }
     function SecurityUpdate() public payable{
-        require(owner != msg.sender);
     }
 
     function getBalance()public view returns (uint256){

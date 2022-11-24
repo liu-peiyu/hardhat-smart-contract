@@ -1,5 +1,5 @@
-// SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.0;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -20,7 +20,7 @@ contract BUILDNFT is ERC721, ERC721URIStorage, Ownable {
 
     uint256 public constant PRICE_PER_TOKEN = 0.01 ether;
 
-    constructor() ERC721("BUILD_NFT", "BFT") ERC721URIStorage() Ownable(){}
+    constructor() ERC721("BUILDNFT", "BFT") ERC721URIStorage() Ownable(){}
 
     function _beforeTokenTransfer(address from, address to, uint256 tokenId, uint256 batchSize) internal override(ERC721) {
         super._beforeTokenTransfer(from, to, tokenId, batchSize);
