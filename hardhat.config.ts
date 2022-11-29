@@ -11,11 +11,14 @@ const { API, PRIVATE_KEY, NETWORK } = process.env
  */
 const config: HardhatUserConfig = {
   solidity: "0.8.17",
-  defaultNetwork: "localhost",
+  defaultNetwork: "ganache",
   paths: {
     sources: "contracts"
   },
   networks: {
+    ganache:{
+      url: "http://127.0.0.1:7545",
+    },
     localhost:{
       url: "http://127.0.0.1:7545",
       accounts: [`0x${PRIVATE_KEY}`]
