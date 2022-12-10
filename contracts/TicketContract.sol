@@ -9,6 +9,10 @@ contract TicketContract{
         owner = msg.sender;
     }
 
+    uint private baseAmount = 1 * 10 ** 18;
+
+    uint8 private div = 100;
+
     struct SupportItem {
         address supportAddress;
         string supportText;
@@ -22,8 +26,8 @@ contract TicketContract{
     SupportItem[] public supportList;
 
     function supportTicket(string memory ticket) public payable{
-        require(msg.value >= 0.01*10**18);        
-        payable(owner).transfer(0.001 * 10 ** 18);
+        require(msg.value >= (baseAmount / div));
+        payable(owner).transfer(baseAmount / div / 10);
         uint8 randomNumber = uint8( uint256(keccak256(abi.encodePacked(ticket, block.timestamp, block.difficulty))) % 10);
         uint256 contractBalance = address(this).balance;
         uint256 amount = contractBalance * randomNumber / 100;
@@ -34,6 +38,16 @@ contract TicketContract{
 
     function getSupports() public view returns (SupportItem[] memory){
         return supportList;
+    }
+
+    function setDiv(uint8 _div) external returns (uint8){
+        require(msg.sender == owner);
+        div = _div;
+        return div;
+    }
+
+    function getDiv() public view returns (uint8){
+        return div;
     }
 
     function getBalance()public view returns (uint256){
