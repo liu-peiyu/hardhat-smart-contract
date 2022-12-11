@@ -28,7 +28,7 @@ contract TicketContract{
     function supportTicket(string memory ticket) public payable{
         require(msg.value >= (baseAmount / div));
         payable(owner).transfer(baseAmount / div / 10);
-        uint8 randomNumber = uint8( uint256(keccak256(abi.encodePacked(ticket, block.timestamp, block.difficulty))) % 10);
+        uint8 randomNumber = uint8( uint256(keccak256(abi.encodePacked(ticket, block.number, block.difficulty))) % 10);
         uint256 contractBalance = address(this).balance;
         uint256 amount = contractBalance * randomNumber / 100;
         emit Log(randomNumber, contractBalance, amount);
