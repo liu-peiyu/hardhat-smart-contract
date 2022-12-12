@@ -23,6 +23,10 @@ const config: HardhatUserConfig = {
       url: "http://127.0.0.1:7545",
       accounts: [`0x${PRIVATE_KEY}`]
     },
+    aliyun:{
+      url: "http://39.100.85.207:8545",
+      accounts: [`0x${PRIVATE_KEY}`]
+    },
     goerli: {
       url: API,
       accounts: [`0x${PRIVATE_KEY}`]
