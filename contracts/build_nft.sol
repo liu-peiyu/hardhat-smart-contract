@@ -45,16 +45,16 @@ contract BUILDNFT is ERC721, ERC721URIStorage, Ownable {
     //     }
     // }
 
-    function mintNFT(address recipient, string memory _tokenURI) public onlyOwner returns (uint256) { 
+    function mintNFT(address recipient, string memory _tokenURI) public payable onlyOwner  returns (uint256) {
         _tokenIds.increment();
-        uint256 newItemId = _tokenIds.current(); 
+        uint256 newItemId = _tokenIds.current();
         _mint(recipient, newItemId);
         _setTokenURI(newItemId, _tokenURI);
         return newItemId;
     }
 
     function tokenURI(uint256 tokenId) public view virtual override(ERC721, ERC721URIStorage) returns (string memory){
-        return tokenURI(tokenId);
+        return super.tokenURI(tokenId);
     }
 
     function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage){
