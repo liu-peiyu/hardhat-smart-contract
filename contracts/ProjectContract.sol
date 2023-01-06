@@ -3,7 +3,7 @@ pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract PojectContract is Ownable{
+contract ProjectContract is Ownable{
 
     uint256 private baseAmount = 1 * 10 ** 18;
 
@@ -18,6 +18,9 @@ contract PojectContract is Ownable{
     uint256 private totalNum;
     uint256 private overNum = 0;
     uint256 private perAmount = minAmount;
+
+    bool private investStatus = false;
+    bool private withdrawStatus = false;
 
     struct InvestItem {
         address investAddress;
@@ -71,11 +74,13 @@ contract PojectContract is Ownable{
         require(!exitsAddress[msg.sender], "1003");
         require(invests.length < totalNum, "1004");
         require(msg.value >= perAmount, "1005");
+        require(!investStatus, "1006");
 
         invests.push(InvestItem(msg.sender, _guessNum, msg.value, block.timestamp));
         exitsAddress[msg.sender] = true;
         exitsGussNum[_guessNum] = true;
         overNum = invests.length;
+        investStatus = (invests.length == totalNum);
         emit investEvent(msg.sender, msg.value, 1);
     }
 
@@ -86,7 +91,7 @@ contract PojectContract is Ownable{
 
     // 1006 set win number
     function withdraw() public payable onlyOwner{
-        require(bytes(winNum).length > 0, "1006");
+        require(bytes(winNum).length > 0, "2000");
         address account = emptyAddress;
         for(uint i=0;i < invests.length; i++){
             InvestItem memory invest = invests[i];
@@ -99,6 +104,7 @@ contract PojectContract is Ownable{
             uint256 rewardAmount = (balance * rewardRate) / 100;
             payable(account).transfer(rewardAmount);
             payable(owner()).transfer(balance - rewardAmount);
+            withdrawStatus = true;
         }
     }
 
@@ -113,6 +119,10 @@ contract PojectContract is Ownable{
 
     function getWinNum() public view returns (string memory){
         return winNum;
+    }
+
+    function getStatus() public view return (bool, bool) {
+        return (investStatus, withdrawStatus);
     }
 
 }
