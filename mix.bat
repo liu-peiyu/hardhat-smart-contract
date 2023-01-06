@@ -1,0 +1,1 @@
+remixd -s D:\\web3Projects\\nft-web3-explorer\\contracts --remix-ide https://remix.ethereum.org/
