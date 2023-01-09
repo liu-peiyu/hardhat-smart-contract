@@ -121,7 +121,7 @@ contract ProjectContract is Ownable{
         return winNum;
     }
 
-    function getStatus() public view return (bool, bool) {
+    function getStatus() public view returns (bool, bool) {
         return (investStatus, withdrawStatus);
     }
 

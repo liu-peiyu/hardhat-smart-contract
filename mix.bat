@@ -1,1 +1,1 @@
-remixd -s d:\web3Projects\nft-web3-explorer\contracts -u https://remix.ethereum.org/
+remixd -s d:\web3Projects\hardhat-smart-contract\contracts -u https://remix.ethereum.org/

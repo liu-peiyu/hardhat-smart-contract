@@ -24,12 +24,12 @@ contract ProjectIndexContract is Ownable{
 
     ProjectObject[] private projects;
 
-    function setProjects(string _contractAddress) public onlyOwner returns (uint256){
-        require(bytes(_guessNum).length > 0, "set error");
+    function setProjects(string memory _contractAddress) public onlyOwner returns (uint256){
+        require(bytes(_contractAddress).length > 0, "set error");
         phase.increment();
         // 获取本期期数
         uint256 currentPhase = phase.current();
-        projects.push(ProjectItem(currentPhase,_contractAddress, block.timestamp));
+        projects.push(ProjectObject(currentPhase, _contractAddress, block.timestamp));
         return currentPhase;
     }
 
